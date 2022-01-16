@@ -14,11 +14,11 @@ public class Lexicographical {
         String input = scanner.nextLine();
         int k = scanner.nextInt();
 
-        StringBuilder smallest = new StringBuilder("");
-        StringBuilder largest = new StringBuilder("");
+        StringBuilder smallest = new StringBuilder();
+        StringBuilder largest = new StringBuilder();
 
         for (int i = 0; i < input.length() - k + 1; i++) {
-            StringBuilder temp = new StringBuilder("");
+            StringBuilder temp = new StringBuilder();
             for (int j = i; j < i + k; j++) {
                 temp.append(input.charAt(j));
             }
