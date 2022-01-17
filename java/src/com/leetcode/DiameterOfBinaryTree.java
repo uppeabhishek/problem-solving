@@ -20,32 +20,25 @@ public class DiameterOfBinaryTree {
         treeNode2.left = new TreeNode(3);
         treeNode2.left.left = new TreeNode(1);
 
-        System.out.println(diameterOfBinaryTree.diameterOfBinaryTree(treeNode2));
+        System.out.println(diameterOfBinaryTree.diameterOfBinaryTree(treeNode));
     }
 
-    public int helper(TreeNode root) {
+    public int helper(TreeNode root, int[] res) {
         if (root == null) {
             return 0;
         }
 
-        if (root.left == null && root.right == null) {
-            return 1;
-        }
+        int left = helper(root.left, res);
+        int right = helper(root.right, res);
 
-        int left = helper(root.left);
-        int right = helper(root.right);
+        res[0] = Math.max(res[0], left + right);
 
-        int diameter = left + right;
-
-        System.out.println(diameter + " " + left + " " + right);
-
-        return Integer.max(diameter, Integer.max(left, right));
+        return Math.max(left, right) + 1;
     }
 
     public int diameterOfBinaryTree(TreeNode root) {
-        if (root == null || (root.left == null && root.right == null)) {
-            return 0;
-        }
-        return helper(root);
+        int[] res = new int[1];
+        helper(root, res);
+        return res[0];
     }
 }
