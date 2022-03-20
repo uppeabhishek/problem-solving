@@ -1,5 +1,4 @@
 class Solution:
-    
     def getMinCount(self, top, bottom, current):
         cnt = 0
         shouldCount = True
@@ -13,18 +12,28 @@ class Solution:
                 break
         
         return (shouldCount, cnt)
-        
-        
+    
     def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
-        result = sys.maxsize
+        dic = defaultdict(int)
+        for i in range(len(tops)):
+            dic[tops[i]]+=1
+            dic[bottoms[i]]+=1
         
-        for i in range(1, 7):
-            shouldCount, cnt = self.getMinCount(tops, bottoms, i)
+        should_check = []
+        for key, value in dic.items():
+            if value >= len(tops):
+                should_check.append(key)    
+        
+        result = sys.maxsize
+
+        for ele in should_check:
+            shouldCount, cnt = self.getMinCount(tops, bottoms, ele)
             if shouldCount:
                 result = min(result, cnt)
             
-            shouldCount, cnt = self.getMinCount(bottoms, tops, i)
+            shouldCount, cnt = self.getMinCount(bottoms, tops, ele)
             if shouldCount:
                 result = min(result, cnt)
         
-        return -1 if result == sys.maxsize else result
+        return -1 if result == sys.maxsize else result          
+    
