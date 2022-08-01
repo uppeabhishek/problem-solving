@@ -1,7 +1,6 @@
 class Solution:
     
     def mergeIntervals(self, intervals):
-        intervals.sort(key = lambda k: k[0])
         result = []
         prev = 0
         for i in range(len(intervals)):
@@ -27,6 +26,7 @@ class Solution:
         
         while i > -1:
             if intervals[i][0] < newInterval[0]:
+                i += 1
                 break
             i -= 1
         
@@ -37,10 +37,10 @@ class Solution:
                 break
             i += 1
     
-        end_i = i
+        end_i = i  
+        
+        newIntervals = intervals[0 : start_i] + [newInterval] + intervals[start_i : end_i] + intervals[end_i : ]
                 
-        newIntervals = [newInterval] + intervals[start_i : end_i]
-                
-        return intervals[0 : start_i] + self.mergeIntervals(newIntervals) + intervals[end_i : ]
+        return self.mergeIntervals(newIntervals)
             
         
