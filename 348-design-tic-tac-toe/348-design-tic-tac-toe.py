@@ -2,28 +2,35 @@ class TicTacToe:
 
     def __init__(self, n: int):
         self.board = [[0 for _ in range(n)] for _ in range(n)]
-        
+        self.dict = defaultdict(int)
+        self.dict['d1_1'] = 0
+        self.dict['d1_2'] = 0
+        self.dict['d2_1'] = 0
+        self.dict['d2_2'] = 0
+
+                    
     def move(self, row: int, col: int, player: int) -> int:
         
         self.board[row][col] = player
         
-        r1, c1, dia1, dia2 = True, True, True, True
-                   
+        d1_key = 'd1_' + str(player)
+        d2_key = 'd2_' + str(player)
+        key1, key2 = 'r_' + str(row) + '_' + str(player), 'c_' + str(col) + '_' + str(player)
         
-        for i in range(len(self.board)):
-            if self.board[row][i] != player:
-                r1 = False
+        if row == col:
+            self.dict[d1_key] += 1
         
-            if self.board[i][col] != player:
-                c1 = False
-            
-            if self.board[i][i] != player:
-                dia1 = False
-            
-            if self.board[i][len(self.board)-i-1] != player:
-                dia2 = False
+        if row + col == len(self.board) - 1:
+            self.dict[d2_key] += 1
         
-        return player if r1 or c1 or dia1 or dia2 else 0
+        
+        self.dict[key1] += 1
+        self.dict[key2] += 1
+                
+        row_col = self.dict[key1] == len(self.board) or self.dict[key2] == len(self.board)
+        diagonal = self.dict[d1_key] == len(self.board) or self.dict[d2_key] == len(self.board)
+        
+        return player if row_col or diagonal else 0    
             
             
 
