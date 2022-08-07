@@ -3,10 +3,6 @@ class TicTacToe:
     def __init__(self, n: int):
         self.board = [[0 for _ in range(n)] for _ in range(n)]
         self.dict = defaultdict(int)
-        self.dict['d1_1'] = 0
-        self.dict['d1_2'] = 0
-        self.dict['d2_1'] = 0
-        self.dict['d2_2'] = 0
 
                     
     def move(self, row: int, col: int, player: int) -> int:
