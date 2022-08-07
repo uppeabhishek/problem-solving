@@ -7,6 +7,7 @@ class Node:
 class Solution:
 
     def __init__(self):
+        self.cnt = 0
         self.root = Node()
 
     def insertIntoTrie(self, product):
@@ -17,41 +18,44 @@ class Solution:
             temp = temp.children[p]
         temp.end = True
 
+    def searchDFS(self, currentWord, root, result):
+        if root.end:
+            self.cnt += 1
+            if self.cnt <= 3:
+                result.append(currentWord)
+            else:
+                return
+
+        for key, value in root.children.items():
+            self.searchDFS(currentWord + key, value, result)
+
     def search(self, word):
         present = True
-        temp = self.root
-        current = ""
+        root = self.root
+        currentWord = ""
         for w in word:
-            if w not in temp.children:
+            if w not in root.children:
                 present = False
                 break
-            current += w
-            temp = temp.children[w]
+            currentWord += w
+            root = root.children[w]
 
         if not present:
             return []
 
-        queue = deque([(current, temp)])
+        self.cnt = 0
+        result = []
+        self.searchDFS(currentWord, root, result)
+        return result
+
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        products = sorted(products)
+        for p in products:
+            self.insertIntoTrie(p)
 
         result = []
 
-        while len(queue):
-            current, temp = queue.popleft()
-            if temp.end:
-                result.append(current)
-
-            for key, value in temp.children.items():
-                queue.append((current + key, value))
-
-        return sorted(result)[:3]
-
-    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
-        for p in products:
-            self.insertIntoTrie(p)
-        
-        result = []    
-    
         for i in range(len(searchWord)):
             result.append(self.search(searchWord[0: i + 1]))
-        
+
         return result
