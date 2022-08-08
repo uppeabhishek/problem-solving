@@ -8,34 +8,23 @@ class Node:
 
 
 class Solution:
+    def cloneGraphHelper(self, node):
+        visited = {}
+        queue = deque([node])
+        visited[node] = Node(node.val)
+
+        while queue:
+            top = queue.popleft()
+
+            for neighbor in top.neighbors:
+                if neighbor not in visited:
+                    visited[neighbor] = Node(neighbor.val)
+                visited[top].neighbors.append(neighbor)
+
+        return visited[node]
+
     def cloneGraph(self, node: 'Node') -> 'Node':
-        if node is None:
-            return None
-
-        visited = set()
-        new_visited = dict()
-
-        queue = deque()
-
-        actual_result = Node(node.val)
-        result = actual_result
-
-        queue.append((node, result))
-        visited.add(node)
-        new_visited[result.val] = result
-
-        while len(queue):
-            top, result = queue.popleft()
-            for ele in top.neighbors:
-                if ele not in visited:
-                    new_node = Node(ele.val)
-                    result.neighbors.append(new_node)
-                    queue.append((ele, new_node))
-                    visited.add(ele)
-                    new_visited[new_node.val] = new_node
-                else:
-                    result.neighbors.append(new_visited[ele.val])
-        return result
+        return self.cloneGraphHelper(node)
 
 
 if __name__ == "__main__":
