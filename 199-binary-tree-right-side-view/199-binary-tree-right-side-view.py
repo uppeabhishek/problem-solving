@@ -6,21 +6,20 @@
 #         self.right = right
 class Solution:
     
-    def rightSideViewHelper(self, root, result, level, visited):
+    def rightSideViewHelper(self, root, result, level):
         if root is None:
             return
         
-        if level not in visited:
+        if self.prev_level == level:
             result.append(root.val)
-            visited.add(level)
-        
-        self.rightSideViewHelper(root.right, result, level + 1, visited)
-        
-        self.rightSideViewHelper(root.left, result, level + 1, visited)
+            self.prev_level += 1
+            
+        self.rightSideViewHelper(root.right, result, level + 1)
+        self.rightSideViewHelper(root.left, result, level + 1)
         
     
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         result = []
-        visited = set()
-        self.rightSideViewHelper(root, result, 1, visited)
+        self.prev_level = 1
+        self.rightSideViewHelper(root, result, 1)
         return result
