@@ -6,23 +6,23 @@
 #         self.right = right
 class Solution:
     
-    def helper(self, root):
+    def isBalancedHelper(self, root):
         if root is None:
             return 0
         
-        if root.left is None and root.right is None:
-            return 1
+        left = self.isBalancedHelper(root.left)
         
-        left = self.helper(root.left)
-        right = self.helper(root.right)
+        right = self.isBalancedHelper(root.right)
         
         if abs(left - right) > 1:
-            self.res = False
-            return abs(left - right)
-        
+            self.result = False
+            return 0
+            
         return 1 + max(left, right)
+        
     
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        self.res = True
-        self.helper(root)
-        return self.res
+        self.result = True
+        self.isBalancedHelper(root)
+        
+        return self.result

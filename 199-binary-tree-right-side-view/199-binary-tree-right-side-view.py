@@ -6,7 +6,7 @@
 #         self.right = right
 class Solution:
     
-    def helper(self, root, level, result):
+    def rightSideViewHelper(self, root, result, level):
         if root is None:
             return
         
@@ -14,12 +14,12 @@ class Solution:
             result.append(root.val)
             self.prev_level += 1
             
-        self.helper(root.right, level + 1, result)
-        self.helper(root.left, level + 1, result)
+        self.rightSideViewHelper(root.right, result, level + 1)
+        self.rightSideViewHelper(root.left, result, level + 1)
+        
     
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         result = []
-        self.prev_level = 0
-        self.helper(root, 0, result)
+        self.prev_level = 1
+        self.rightSideViewHelper(root, result, 1)
         return result
-            
