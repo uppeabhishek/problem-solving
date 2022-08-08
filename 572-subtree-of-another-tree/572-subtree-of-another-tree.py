@@ -6,30 +6,28 @@
 #         self.right = right
 class Solution:
     
-    def checkTwoTrees(self, root1, root2):
-        if root1 is None and root2 is None:
-            return True
-        
-        if root1 is None or root2 is None:
-            return False
-        
-        if root1.val != root2.val:
-            return False
-        
-        return self.checkTwoTrees(root1.left, root2.left) and self.checkTwoTrees(root1.right, root2.right)
-        
-    def isSubtreeHelper(self, root, subRoot):
-        
+    def treeToString(self, root, result):
         if root is None:
-            return False
+            result.append("#")
+            return
+
+        result.append("$" + str(root.val))
         
-        if root.val == subRoot.val:
-            if self.checkTwoTrees(root, subRoot):
-                return True
+        self.treeToString(root.left, result)
+        self.treeToString(root.right, result)
         
-        return self.isSubtreeHelper(root.left, subRoot) or self.isSubtreeHelper(root.right, subRoot)
         
     
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        return self.isSubtreeHelper(root, subRoot)
+        rootResult = []
+        subRootResult = []
+        
+        self.treeToString(root, rootResult)
+        self.treeToString(subRoot, subRootResult)
+        
+        subRootResult = "".join(subRootResult)
+        rootResult = "".join(rootResult)
+                
+        return subRootResult in rootResult
+        
         
