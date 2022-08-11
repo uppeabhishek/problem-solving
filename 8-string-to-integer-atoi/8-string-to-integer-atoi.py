@@ -36,7 +36,10 @@ class Solution:
         
         max_val = 2 ** 31
         
+        positive_max_val, negative_max_val = (max_val - 1) / 10, max_val / 10
+        
         new_s, positive = cleanString(s)
+        
         result = 0
         index = 0
         
@@ -44,10 +47,10 @@ class Solution:
             result = result * 10 + int(new_s[index])
             
             if positive:
-                if result > max_val - 1:
+                if result / 10 > positive_max_val:
                     return max_val - 1
             else:
-                if result > max_val:
+                if result / 10 > negative_max_val:
                     return -max_val
             
             index += 1
