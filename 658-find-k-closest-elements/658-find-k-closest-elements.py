@@ -29,12 +29,15 @@ class Solution:
         
         low, high = index - 1, index + 1
                 
-        while k > 0:
+        while k > 0:    
             
             result.append(arr[index])
             
             k -= 1
             
+            if k == 0:
+                break
+                
             if low >= 0 and high < len(arr):
                 if abs(x - arr[low]) <= abs(x - arr[high]):
                     index = low
@@ -48,8 +51,9 @@ class Solution:
             else:
                 index = high
                 high += 1
-            
-        return sorted(result)
+    
+                        
+        return arr[low + 1: high]
             
         
             
