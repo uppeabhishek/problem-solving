@@ -5,24 +5,37 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    
-    def helper(self, preorder, inorder_dictionary, left, right):
-        if left > right:
-            return None
-
-        root = TreeNode(preorder[self.index])
-        index = inorder_dictionary[preorder[self.index]]
-        self.index += 1
-        root.left = self.helper(preorder, inorder_dictionary, left, index - 1)
-        root.right = self.helper(preorder, inorder_dictionary, index + 1, right)
-        return root
-
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        self.index = 0
-        inorder_dictionary = collections.defaultdict(int)
-
-        for i, ele in enumerate(inorder):
-            inorder_dictionary[ele] = i
-
-        return self.helper(preorder, inorder_dictionary, 0, len(preorder) - 1)
         
+        dic = {}
+        
+        for i in range(len(inorder)):
+            dic[inorder[i]] = i
+        
+        n = len(preorder)
+        
+        self.index = 0
+        
+        def construct(index, left, right):
+            
+            if left > right:
+                return None
+            
+            current = preorder[self.index]
+            
+            self.index += 1
+
+            root = TreeNode(current) 
+            
+            root.left = construct(index + 1, left, dic[current] - 1)
+            
+            root.right = construct (index + 1, dic[current] + 1, right)
+            
+            return root
+    
+        
+        return construct(0, 0, n - 1)
+            
+            
+            
+            
