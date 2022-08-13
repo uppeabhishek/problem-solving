@@ -25,10 +25,9 @@ class Graph:
     
     def dfs(self):
         visited = [False] * self.edges
-        recursion_stack = [False] * self.edges
         
         for u in range(self.edges):
-            if visited[u] == False:
+            if not visited[u]:
                 res = self.dfsHelper(u, visited, -1)
                 
                 if res:
