@@ -1,20 +1,23 @@
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
 
-        p_counter = defaultdict(set)
+        p_counter = Counter()
 
         actual_counter = Counter(p)
 
+        p_length = len(p)
+        
         def isCounterMatched():
             if len(p_counter) != len(actual_counter):
                 return False
 
             for key, value in p_counter.items():
-                if key not in actual_counter or actual_counter[key] != len(value):
+                if key not in actual_counter or actual_counter[key] != value:
                     return False
 
             return True
 
+            
         def helper():
 
             nonlocal p_counter, actual_counter
@@ -24,30 +27,20 @@ class Solution:
             i = 0
 
             while i < len(s):
-
                 current = s[i]
-
-                fail_condition = current not in actual_counter or actual_counter[current] == 0
-
-                if fail_condition:
-                    p_counter = defaultdict(set)
-                else:
-                    p_counter[current].add(i)
-
-                    if len(p_counter[current]) > actual_counter[current]:
-                        first = min(p_counter[current])
-                        prev_result = result[-1] if len(result) else 0
-
-                        for c in range(prev_result, first + 1):
-                            if s[c] in p_counter and c in p_counter[s[c]]:
-                                p_counter[s[c]].remove(c)
-
+                
+                if i >= p_length:
+                    p_counter[s[i - p_length]] -= 1
+                    if not p_counter[s[i - p_length]]:
+                        del p_counter[s[i - p_length]]
+                    
+                p_counter[current] += 1
+                
                 if isCounterMatched():
-                    prev = i + 1 - len(p)
-                    result.append(prev)
-
+                    result.append(i + 1 - p_length)
+                
                 i += 1
-            
+        
             return result
-
+                
         return helper()
