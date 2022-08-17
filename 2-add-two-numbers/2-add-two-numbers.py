@@ -4,56 +4,70 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def addToResult(self, res, val):
-        if res is None:
-            res = ListNode(val)
-            self.result = res
-        else:
-            res.next = ListNode(val)
-            res = res.next
-        return res
-        
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        
+        
+        head1, head2 = l1, l2
+        
         rem = 0
         
-        res = None
+        head = None
+        temp = None
         
-        self.result = None
-        
-        while l1 and l2:
-            su = l1.val + l2.val + rem
-            if su >= 10:
-                res = self.addToResult(res, su % 10)
-                rem = su // 10
+        while head1 and head2:
+            current = head1.val + head2.val + rem
+            
+            if current  > 9:
+                rem = current // 10
+                current = current % 10
             else:
-                res = self.addToResult(res, su)
                 rem = 0
-            l1 = l1.next
-            l2 = l2.next
-        
-        while l1:
-            su = l1.val + rem
-            if su >= 10:
-                res = self.addToResult(res, su % 10)
-                rem = su // 10
+            
+            if head is None:
+                head = ListNode(current)
+                temp = head
             else:
-                res = self.addToResult(res, su)
-                rem = 0
-            l1 = l1.next
+                temp.next = ListNode(current)
+                temp = temp.next
         
-        while l2:
-            su = l2.val + rem
-            if su >= 10:
-                res = self.addToResult(res, su % 10)
-                rem = su // 10
+            head1, head2 = head1.next, head2.next
+            
+        
+        while head1:
+            current = head1.val + rem
+            
+            if current > 9:
+                rem = current // 10
+                current = current % 10
             else:
-                res = self.addToResult(res, su)
                 rem = 0
-            l2 = l2.next
+            
+            temp.next = ListNode(current)
+            temp = temp.next
+            head1 = head1.next
+            
         
-        if rem > 0:
-            self.addToResult(res, rem)
+        while head2:
+            current = head2.val + rem
+            
+            if current > 9:
+                rem = current // 10
+                current = current % 10
+            else:
+                rem = 0
+            
+            temp.next = ListNode(current)
+            temp = temp.next
+            head2 = head2.next
+            
         
-        return self.result
+        if rem:
+            temp.next = ListNode(rem)
+        
+        return head
 
-        
+    
+    
+    
+    
+                
