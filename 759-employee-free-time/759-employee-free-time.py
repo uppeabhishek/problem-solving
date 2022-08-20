@@ -19,9 +19,6 @@ class Solution:
         
         result = []
         
-        # for i in range(len(new_schedule)):
-            # print (new_schedule[i].start, new_schedule[i].end)
-        
         max_end = 0
         
         for i in range(len(new_schedule) - 1):
