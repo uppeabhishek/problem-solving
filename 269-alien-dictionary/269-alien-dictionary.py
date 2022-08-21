@@ -5,49 +5,30 @@ class Graph:
     def addEdge(self, u, v):
         self.graph[u].add(v)
 
-    def DFSCycleHelper(self, v, visited, recursion):
+    def DFSHelper(self, v, result, visited, recursion):
         visited.add(v)
         recursion.add(v)
-        
-        
+
         for u in self.graph[v]:
             if u not in visited:
-                if self.DFSCycleHelper(u, visited, recursion):
+                if self.DFSHelper(u, result, visited, recursion):
                     return True
             elif u in recursion:
                 return True
-        
-        recursion.remove(v)
-        return False    
-        
-        
-    def DFSCycle(self):
-        visited = set()
-        recursion = set()
-        
-        for u in self.graph:
-            if u not in visited:
-                if self.DFSCycleHelper(u, visited, recursion):
-                    return True
-    
-        return False
-
-    def DFSHelper(self, v, result, visited):
-        visited.add(v)
-        
-        for u in self.graph[v]:
-            if u not in visited:
-                self.DFSHelper(u, result, visited)
 
         result.appendleft(v)
+        recursion.remove(v)
+        return False
         
     def DFS(self):
         result = deque([])
         visited = set()
-                        
+        recursion = set()
+            
         for u in self.graph:
             if u not in visited:
-                self.DFSHelper(u, result, visited)
+                if self.DFSHelper(u, result, visited, recursion):
+                    return ""
         
         return "".join(result)
     
@@ -80,8 +61,5 @@ class Solution:
                 if current != nxt:
                     g.addEdge(words[i][j], words[i + 1][j])
                     break
-        
-        if g.DFSCycle():
-            return ""
-                
+            
         return g.DFS()
