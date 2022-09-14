@@ -9,7 +9,30 @@ class Solution:
         
         cache = defaultdict(int)
         array = []
+        counter = [0, 0]
         result = 0
+        
+        def updateCache(val, addition = True):
+            if addition:
+                if val not in cache:
+                    counter[0] += 1
+                    cache[val] += 1
+                else:
+                    cache[val] += 1
+                    if cache[val] & 1 == 0:
+                        counter[0] -= 1
+                        counter[1] += 1
+                    else:
+                        counter[0] += 1
+                        counter[1] -= 1
+            else:
+                cache[val] -= 1
+                if cache[val] & 1 == 0:
+                    counter[0] -= 1
+                    counter[1] += 1
+                else:
+                    counter[0] += 1
+                    counter[1] -= 1
         
         def helper(root):
             
@@ -18,35 +41,27 @@ class Solution:
             if root is None:
                 return 
             
-            if root.left is None and root.right is None:
-                odd_cnt = 0
+            if root.left is None and root.right is None:                
                 
-                cache[root.val] += 1
+                updateCache(root.val)
                 
-                for _, value in cache.items():
-                    if value & 1 == 1:
-                        odd_cnt += 1
-
-                    if odd_cnt > 1:
-                        break
-                
-                cache[root.val] -= 1
-                
-                if odd_cnt < 2:
+                if counter [0] < 2:
                     result += 1
+                
+                updateCache(root.val, False)
                     
                 return
             
             array.append(root.val)
-            cache[root.val] += 1
+            updateCache(root.val)
 
             helper(root.left)
             helper(root.right)
               
-            cache[array[-1]] -= 1
+            updateCache(array[-1], False)
             array.pop()
             
         helper(root)
-        
+                
         return result
         
