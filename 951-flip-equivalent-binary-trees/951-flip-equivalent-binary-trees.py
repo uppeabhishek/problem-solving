@@ -13,21 +13,13 @@ class Solution:
             if root1 is None and root2 is None:
                 return True
             
-            if root1 is None:
+            if root1 is None or root2 is None or root1.val != root2.val:
                 return False
-            
-            if root2 is None:
-                return False
-            
-            res = False
-            if root1.val == root2.val:
-                res = True
             
             first = helper(root1.left, root2.left) and helper(root1.right, root2.right)
             second = helper(root1.left, root2.right) and helper(root1.right, root2.left)
             third = helper(root1.right, root2.left) and helper(root1.left, root2.right)
             
-            return res and (first or second or third)
-    
+            return first or second or third
                 
         return helper(root1, root2)        
