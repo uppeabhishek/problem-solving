@@ -18,8 +18,7 @@ class Solution:
             
             first = helper(root1.left, root2.left) and helper(root1.right, root2.right)
             second = helper(root1.left, root2.right) and helper(root1.right, root2.left)
-            third = helper(root1.right, root2.left) and helper(root1.left, root2.right)
             
-            return first or second or third
+            return first or second
                 
         return helper(root1, root2)        
