@@ -1,16 +1,12 @@
 class Solution:
     
-    
-    def climbStairsHelper(self, n: int, dic) -> int:
-        if n in dic:
-            return dic[n]
+    @cache
+    def climbStairs(self, n: int) -> int:
         
-        if n == 1 or n == 0:
+        if n == 1:
             return 1
         
-        dic[n] = self.climbStairsHelper(n - 1, dic) + self.climbStairsHelper(n - 2, dic)
-        return dic[n]
-    
-    def climbStairs(self, n: int) -> int:
-        dic = {}
-        return self.climbStairsHelper(n, dic)
+        if n == 2:
+            return 2
+        
+        return self.climbStairs(n - 1) + self.climbStairs(n - 2)
