@@ -7,28 +7,24 @@ class Node:
 """
 
 class Solution:
-    
-    def cloneGraphHelper(self, node):
-        visited = {}
-                
-        queue = deque([node])
-
-        visited[node] = Node(node.val)
-        
-
-        while queue:
-            top = queue.popleft()
-
-            for neighbor in top.neighbors:
-                if neighbor not in visited:
-                    visited[neighbor] = Node(neighbor.val)
-                    queue.append(neighbor)
-                    
-                visited[top].neighbors.append(visited[neighbor])
-
-        return visited[node]
-    
     def cloneGraph(self, node: 'Node') -> 'Node':
-        if not node:
-            return None
-        return self.cloneGraphHelper(node)
+        
+        visited = defaultdict(list)
+        
+        def helper(node):
+            
+            if node is None:
+                return None
+            
+            if node in visited:
+                return visited[node]
+        
+            new_node = Node(node.val)
+            
+            visited[node] = new_node
+            
+            new_node.neighbors = [helper(n) for n in node.neighbors]
+            
+            return new_node
+    
+        return helper(node)
