@@ -55,5 +55,3 @@ class Solution:
                         
         return arr[low + 1: high]
             
-        
-            
