@@ -14,7 +14,7 @@ class Solution:
         
         paths = [[-1, 0], [0, -1], [0, 1], [1, 0], [-1, -1], [1, 1], [-1, 1], [1, -1]]
         
-        visited = set([0, 0])
+        visited = set([(0, 0)])
         
         while len(queue):
             
