@@ -11,16 +11,17 @@ class Graph:
         self.original_graph[u].add(v)
         
     def DFSHelper(self, u, visited):        
-        visited.add(u)
         
         for v in self.graph[u]:
             if v not in visited:
+                visited.add(v)
                 if u not in self.original_graph[v]:
                     self.cnt += 1
                 self.DFSHelper(v, visited)
             
+            
     def DFS(self):
-        visited = set()
+        visited = set([0])
         self.cnt = 0
         self.DFSHelper(0, visited)
         return self.cnt
